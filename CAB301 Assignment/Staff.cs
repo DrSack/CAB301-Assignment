@@ -1,0 +1,301 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace CAB301_Assignment
+{
+    class Staff
+    {
+        public static void LOGIN(MovieCollection Movies, MemberCollection Members)
+        {
+            Console.WriteLine("Welcome to the Community Library");
+            Console.WriteLine("============Staff Login===========");
+            Console.WriteLine("Please Enter Credentials");
+
+            Console.Write("Username: ");
+            string user = Console.ReadLine();
+            Console.Write("Password: ");
+            string pass = Console.ReadLine();
+            try
+            {
+                LOGINCHECK(user, pass, Movies, Members);
+            }
+            catch { Console.WriteLine("ERROR: Incorrect Credentials"); Console.ReadLine(); }
+            Console.Clear();
+        }
+
+        public static void LOGINCHECK(string user, string pass, MovieCollection Movies, MemberCollection Members)
+        {
+            if (user == "staff" && pass == "today123")
+            {
+                STAFF(Movies, Members);
+            }
+            else
+            {
+                throw new Exception();
+            }
+        }
+
+        static void STAFF(MovieCollection Movies, MemberCollection Members)
+        {
+            Console.Clear();
+            bool truth = true;
+            while (truth)
+            {
+                Console.WriteLine("============Staff Menu===========");
+                Console.WriteLine("1. Add a new movie DVD");
+                Console.WriteLine("2. Remove a movie DVD");
+                Console.WriteLine("3. Register a new Member");
+                Console.WriteLine("4. Find a registered member's phone number");
+                Console.WriteLine("0. Return to main menu");
+                Console.WriteLine("================================");
+                Console.Write("Please make a selection (1-4, 0 to exit): ");
+                string value = Console.ReadLine();
+
+                try
+                {
+                    int result = Convert.ToInt32(value);
+                    truth = SWITCHSTAFF(result, Movies, Members);
+                }
+                catch { Console.WriteLine("ERROR: Please try again"); Console.WriteLine("Please press 'Enter' to continue..."); Console.ReadLine();}
+                Console.Clear();
+            }
+        }
+
+        public static bool SWITCHSTAFF(int result, MovieCollection Movies, MemberCollection Members)
+        {
+            switch (result)
+            {
+                case 1:
+                    AddMovie(Movies);
+                    break;
+                case 2:
+                    RemoveMovie(Movies);
+                    break;
+                case 3:
+                    RegisterMember(Members);
+                    break;
+                case 4:
+                    MemberSearch(Members);
+                    break;
+                case 0:
+                    return false;
+                default:
+                    throw new Exception();
+            }
+            return true;
+        }
+
+        public static void MemberSearch(MemberCollection Members)
+        {
+            Console.Clear();
+            Members.DisplayMembers();
+            bool SearchCatch = true;
+            while (SearchCatch)
+            {
+                SearchCatch = false;
+                Console.Write("Enter Member's Fullname to 'search' for Contact Information or press 'ENTER' to exit: ");
+                string name = Console.ReadLine();
+                try
+                {
+                    if (name != "")
+                    {
+                        Console.Clear();
+                        Members.DisplayNumber(name);
+                        Console.WriteLine("");
+                        Console.WriteLine("press 'ENTER' to continue");
+                        Console.ReadLine();
+                    }
+                }
+                catch { Console.WriteLine("ERROR: Please enter valid input"); SearchCatch = true; }
+            }
+        }
+
+            public static void RegisterMember(MemberCollection Members)
+        {
+            bool truth = true;
+            while (truth)
+            {
+                Console.Clear();
+                Console.WriteLine("");
+                Console.WriteLine("============Add Member==========");
+                string GivenName = LoopCheck("Enter Given Name: ");
+                string Surname = LoopCheck("Enter Surname: ");
+                string ResidentialAddress = LoopCheck("Enter Residential Address: ");
+                string PhoneNumber = "";
+
+                bool NumberCatch = true;
+                while (NumberCatch)
+                {
+                    NumberCatch = false;
+                    Console.Write("Enter valid Phone Number: ");
+                    string number = Console.ReadLine();
+
+                    try { Int32.Parse(number); PhoneNumber = number; } catch { Console.WriteLine("ERROR: Please enter valid input"); NumberCatch = true; }
+                }
+
+                bool RestartCatch = true;
+                while (RestartCatch)
+                {
+                    RestartCatch = false;
+                    Console.Write("Restart (0), Add (1): ");
+                    string restart = Console.ReadLine();
+                    try
+                    {
+                        int value = Int32.Parse(restart);
+                        if (value == 0)
+                            truth = true;
+                        else if (value == 1)
+                        {
+                            Members.Insert(new Member(GivenName, Surname, ResidentialAddress, PhoneNumber));
+                            Console.WriteLine();
+                            Console.WriteLine(String.Format("Member '{0} {1}' has been added press 'ENTER' to continue", GivenName, Surname));
+                            Console.ReadLine();
+                            truth = false;
+                        }
+                        else { throw new Exception(); }
+                    }
+                    catch { Console.WriteLine("ERROR: Please enter valid input"); RestartCatch = true; }
+                }
+            }
+        }
+
+        public static void RemoveMovie(MovieCollection Movies)
+        {
+            Console.Clear();
+            Movies.DisplayTree();
+            bool RemoveCatch = true;
+            while (RemoveCatch)
+            {
+                RemoveCatch = false;
+                Console.Write("Enter Movie Title to remove from Collection or press 'ENTER' to exit: ");
+                string title = Console.ReadLine();
+                try { if (title != "") { Movies.deleteKey(title);
+                        Console.WriteLine("");
+                        Console.WriteLine("press 'ENTER' to continue");
+                        Console.ReadLine(); 
+                    } 
+                } catch { Console.WriteLine("ERROR: Please enter valid input"); RemoveCatch = true; }
+            }
+        }
+
+            public static void AddMovie(MovieCollection Movies)
+        {
+            bool truth = true;
+            while (truth)
+            {
+                Console.Clear();
+                truth = false;
+                string Title;
+                string Starring;
+                string Director;
+                string ReleaseDate;
+                string Genre = "";
+                string Classification = "";
+                float Duration = 0;
+
+                Console.WriteLine("============Add Movie===========");
+                Title = LoopCheck("Enter Title: ");
+                Starring = LoopCheck("Enter Starring Role: ");
+                Director = LoopCheck("Enter Director: ");
+
+                bool DurationCatch = true;
+                while (DurationCatch)
+                {
+                    DurationCatch = false;
+                    Console.Write("Enter Duration in hours (e.g 1h30m is 1.5): ");
+                    string duration = Console.ReadLine();
+
+                    try { Duration = float.Parse(duration); } catch { Console.WriteLine("ERROR: Please enter valid input"); DurationCatch = true; }
+                }
+
+                bool GenreCatch = true;
+                while (GenreCatch)
+                {
+                    GenreCatch = false;
+                    Console.Write("Enter Genre (Drama, Adventure, Family, Action, Sci-Fi, Comedy, Animated, Thriller, or Other): ");
+                    string genre = Console.ReadLine();
+                    try
+                    {
+                        if (genre == "Drama" || genre == "Adventure" || genre == "Family" ||
+                            genre == "Action" || genre == "Sci-Fi" || genre == "Comedy" ||
+                            genre == "Animated" || genre == "Thriller" || genre == "Other")
+                            Genre = genre;
+                        else { throw new Exception(); }
+                    }
+                    catch { Console.WriteLine("ERROR: Please enter valid input"); GenreCatch = true; }
+
+                }
+
+                bool ClassificationCatch = true;
+                while (ClassificationCatch)
+                {
+                    ClassificationCatch = false;
+                    Console.Write("Enter Classification (General (G), Parental Guidance (PG)), Mature (M15+), Mature Accompanied (MA15+): ");
+                    string clas = Console.ReadLine();
+                    try
+                    {
+                        if (clas == "G" || clas == "PG" || clas == "M15+" ||
+                            clas == "MA15+")
+                            Classification = clas;
+                        else { throw new Exception(); }
+                    }
+                    catch { Console.WriteLine("ERROR: Please enter valid input"); ClassificationCatch = true; }
+
+                }
+
+                Console.Write("Enter Release Date DD/MM/YYYY: ");
+                ReleaseDate = Console.ReadLine();
+
+                Console.WriteLine("");
+                Console.WriteLine("Title: " + Title);
+                Console.WriteLine("Starring: " + Starring);
+                Console.WriteLine("Directed by: " + Director);
+                Console.WriteLine("Length: " + Duration.ToString() +" hours");
+                Console.WriteLine("Genre: " + Genre);
+                Console.WriteLine("Classification: " + Classification);
+                Console.WriteLine("Release Date: " + ReleaseDate);
+                Console.WriteLine("");
+
+                bool RestartCatch = true;
+                while (RestartCatch)
+                {
+                    RestartCatch = false;
+                    Console.Write("Restart (0), Add (1): ");
+                    string restart = Console.ReadLine();
+                    try
+                    {
+                        int value = Int32.Parse(restart);
+                        if (value == 0)
+                            truth = true;
+                        else if (value == 1)
+                        {
+                            Movies.Insert(new Movie(Title, Starring, Director, Duration, Genre, Classification, ReleaseDate));
+                            Console.WriteLine("");
+                            Console.WriteLine(String.Format("Movie '{0}' has been Added to collection press 'ENTER' to continue", Title));
+                            Console.ReadLine();
+                            truth = false;
+                        }
+                        else{throw new Exception();}
+                    }
+                    catch { Console.WriteLine("ERROR: Please enter valid input"); RestartCatch = true; }
+                }
+            }
+            
+        }
+        public static string LoopCheck(string message)
+        {
+            string value = "";
+            bool link = true;
+            while (link)
+            {
+                link = false;
+                Console.Write(message);
+                value = Console.ReadLine();
+
+                try { if (value == "") { throw new Exception(); } } catch { Console.WriteLine("ERROR: Please enter valid input"); link = true; }
+            }
+            return value;
+        }
+    }
+}
