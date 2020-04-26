@@ -28,16 +28,6 @@ namespace CAB301_Assignment
             Movies = new MovieCollection();
         }
 
-        public void BorrowMovie(Movie movie)
-        {
-            Movies.Insert(movie);
-        }
-
-        public void ReturnMovie(string movie)
-        {
-            Movies.deleteKey(movie);
-        }
-
         public bool PasswordCheck(string pass)
         {
             if (!PasswordSet)
@@ -166,31 +156,21 @@ namespace CAB301_Assignment
                 Console.Clear();
             }
         }
-        private static bool SWITCHMEMBER(int result, MovieCollection Movies, MemberCollection Members)
+        private bool SWITCHMEMBER(int result, MovieCollection Movies, MemberCollection Members)
         {
             switch (result)
             {
                 case 1:
-                    Console.Clear();
-                    Movies.DisplayTree();
-                    Console.WriteLine("");
-                    Console.WriteLine("Please press 'Enter' to continue...");
-                    Console.ReadLine();
+                    DisplayMovies(Movies);
                     break;
                 case 2:
-                    Console.Clear();
-                    Console.WriteLine("Borrow a movie DVD");
-                    Console.ReadLine();
+                    BorrowMovies(Movies);
                     break;
                 case 3:
-                    Console.Clear();
-                    Console.WriteLine("Return a movie DVD");
-                    Console.ReadLine();
+                    ReturnMovies(Movies);
                     break;
                 case 4:
-                    Console.Clear();
-                    Console.WriteLine("List current borrowed movie DVD's");
-                    Console.ReadLine();
+                    DisplayMovies(this.Movies);
                     break;
                 case 5:
                     Console.Clear();
@@ -203,6 +183,54 @@ namespace CAB301_Assignment
                     throw new Exception();
             }
             return true;
+        }
+
+        private void DisplayMovies(MovieCollection Movies)
+        {
+            Console.Clear();
+            Movies.DisplayTree();
+            Console.WriteLine("");
+            Console.WriteLine("Please press 'Enter' to continue...");
+            Console.ReadLine();
+        }
+
+        private void BorrowMovies(MovieCollection Movies)
+        {
+            Console.Clear();
+            Movies.DisplayTree();
+            Console.WriteLine("");
+            string value = Staff.LoopEnterCheck("Enter Movie to Borrow or press 'ENTER' to exit: ");
+            if(value != "")
+            {
+                Movie MovVal = Movies.borrowKey(value, "Borrowed");
+                if(MovVal != null)
+                {
+                    this.Movies.Insert(MovVal);
+                }
+                
+                Console.WriteLine("");
+                Console.WriteLine("Please press 'Enter' to continue...");
+                Console.ReadLine();
+            }
+        }
+
+        private void ReturnMovies(MovieCollection Movies)
+        {
+            Console.Clear();
+            this.Movies.DisplayTree();
+            Console.WriteLine("");
+            string value = Staff.LoopEnterCheck("Enter Movie to Return or press 'ENTER' to exit: ");
+            if(value != "")
+            {
+                Movie MovVal = this.Movies.borrowKey(value, "Returned");
+                if (MovVal != null)
+                {
+                    Movies.Insert(MovVal);
+                }
+                Console.WriteLine("");
+                Console.WriteLine("Please press 'Enter' to continue...");
+                Console.ReadLine();
+            }
         }
     }
 }

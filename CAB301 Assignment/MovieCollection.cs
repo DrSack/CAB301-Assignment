@@ -29,32 +29,73 @@ namespace CAB301_Assignment
         }
 
         // This method mainly calls deleteRec()  
-        public void deleteKey(string key)
+        public Movie borrowKey(string key, string mes)
         {
-            _root = deleteRec(_root, key);
+            Node stuffs = new Node(borrowRec(_root, key).Data);
+            Movie Borrowing = new Movie(stuffs.Data.Title, stuffs.Data.Starring, stuffs.Data.Director, stuffs.Data.Duration, stuffs.Data.Genre, stuffs.Data.Classification, stuffs.Data.ReleaseDate);
+            if(Borrowing == null)
+            {
+                return null;
+            }
+            else
+            {
+                deleteKey(key, mes);
+                return Borrowing;
+            }
+            
         }
 
         /* A recursive function to insert a new key in BST */
-        Node deleteRec(Node root, string Data)
+        Node borrowRec(Node root, string Data)
+        {
+            Node Boi;
+            if (root == null) { Console.WriteLine("No records found for " + "`" + Data + "'"); return null; }
+            if (string.Compare(Data, root.Data.Title) == -1)
+            {
+                Boi = borrowRec(root.Left, Data);
+                return Boi;
+            }
+            else if (string.Compare(Data, root.Data.Title) == 1)
+            {
+                Boi = borrowRec(root.Right, Data);
+                return Boi;
+            }
+            else if (string.Compare(Data, root.Data.Title) == 0)
+            {
+                return root;
+            }
+            return null;
+        }
+
+        // This method mainly calls deleteRec()  
+        public void deleteKey(string key, string mes)
+        {
+            _root = deleteRec(_root, key, true, mes);
+        }
+
+        Node deleteRec(Node root, string Data, bool trust, string mes)
         {
             if (root == null) { Console.WriteLine("No records found for " + "`" + Data + "'"); return root; }
             if (string.Compare(Data, root.Data.Title) == -1)
             {
-                root.Left = deleteRec(root.Left, Data);
+                root.Left = deleteRec(root.Left, Data, trust, mes);
             }
             else if (string.Compare(Data, root.Data.Title) == 1)
             {
-                root.Right = deleteRec(root.Right, Data);
+                root.Right = deleteRec(root.Right, Data, trust, mes);
             }
             else if (string.Compare(Data, root.Data.Title) == 0)
             {
-                Console.WriteLine("Deleted '" + Data + "' from Movie Collection");
+                if (trust)
+                {
+                    Console.WriteLine(mes+" '"+ root.Data.Title + "' from Movie Collection");
+                }
                 if (root.Left == null)
                     return root.Right;
                 else if (root.Right == null)
                     return root.Left;
                 root.Data.Title = minValue(root.Right);
-                root.Right = deleteRec(root.Right, root.Data.Title);
+                root.Right = deleteRec(root.Right, root.Data.Title, false, mes);
             }
             return root;
         }
@@ -104,8 +145,8 @@ namespace CAB301_Assignment
         private void DisplayTree(Node root)
         {
             if (root == null) { return; };
-            count++;
             DisplayTree(root.Left);
+            count++;
             Console.WriteLine("");
             Console.WriteLine(count.ToString() + ".");
             Console.WriteLine("Title: " + root.Data.Title);

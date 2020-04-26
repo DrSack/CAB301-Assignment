@@ -8,6 +8,7 @@ namespace CAB301_Assignment
         static void Main(string[] args)
         {
             MovieCollection Movies = new MovieCollection();
+            Movies.Insert(new Movie("Cool", "So", "What", 1.5f, "Drama", "G", "13/02/1998"));
             MemberCollection Members = new MemberCollection();
             MENU(Movies, Members);
         }

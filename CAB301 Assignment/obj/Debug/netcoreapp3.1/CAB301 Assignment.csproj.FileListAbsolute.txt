@@ -9,3 +9,14 @@ D:\Desktop\CAB301\Assignment\CAB301 Assignment\CAB301 Assignment\obj\Debug\netco
 D:\Desktop\CAB301\Assignment\CAB301 Assignment\CAB301 Assignment\obj\Debug\netcoreapp3.1\CAB301 Assignment.AssemblyInfo.cs
 D:\Desktop\CAB301\Assignment\CAB301 Assignment\CAB301 Assignment\obj\Debug\netcoreapp3.1\CAB301 Assignment.dll
 D:\Desktop\CAB301\Assignment\CAB301 Assignment\CAB301 Assignment\obj\Debug\netcoreapp3.1\CAB301 Assignment.pdb
+C:\Users\travi\Source\Repos\DrSack\CAB301-Assignment\CAB301 Assignment\bin\Debug\netcoreapp3.1\CAB301 Assignment.exe
+C:\Users\travi\Source\Repos\DrSack\CAB301-Assignment\CAB301 Assignment\bin\Debug\netcoreapp3.1\CAB301 Assignment.deps.json
+C:\Users\travi\Source\Repos\DrSack\CAB301-Assignment\CAB301 Assignment\bin\Debug\netcoreapp3.1\CAB301 Assignment.runtimeconfig.json
+C:\Users\travi\Source\Repos\DrSack\CAB301-Assignment\CAB301 Assignment\bin\Debug\netcoreapp3.1\CAB301 Assignment.runtimeconfig.dev.json
+C:\Users\travi\Source\Repos\DrSack\CAB301-Assignment\CAB301 Assignment\bin\Debug\netcoreapp3.1\CAB301 Assignment.dll
+C:\Users\travi\Source\Repos\DrSack\CAB301-Assignment\CAB301 Assignment\bin\Debug\netcoreapp3.1\CAB301 Assignment.pdb
+C:\Users\travi\Source\Repos\DrSack\CAB301-Assignment\CAB301 Assignment\obj\Debug\netcoreapp3.1\CAB301 Assignment.csprojAssemblyReference.cache
+C:\Users\travi\Source\Repos\DrSack\CAB301-Assignment\CAB301 Assignment\obj\Debug\netcoreapp3.1\CAB301 Assignment.AssemblyInfoInputs.cache
+C:\Users\travi\Source\Repos\DrSack\CAB301-Assignment\CAB301 Assignment\obj\Debug\netcoreapp3.1\CAB301 Assignment.AssemblyInfo.cs
+C:\Users\travi\Source\Repos\DrSack\CAB301-Assignment\CAB301 Assignment\obj\Debug\netcoreapp3.1\CAB301 Assignment.dll
+C:\Users\travi\Source\Repos\DrSack\CAB301-Assignment\CAB301 Assignment\obj\Debug\netcoreapp3.1\CAB301 Assignment.pdb

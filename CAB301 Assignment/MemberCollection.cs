@@ -10,6 +10,7 @@ namespace CAB301_Assignment
         public MemberCollection()
         {
             collection = new Member[20];
+            Insert(new Member("A", "A", "A", "123"));
         }
 
         public void Insert(Member member)

@@ -170,7 +170,7 @@ namespace CAB301_Assignment
                 RemoveCatch = false;
                 Console.Write("Enter Movie Title to remove from Collection or press 'ENTER' to exit: ");
                 string title = Console.ReadLine();
-                try { if (title != "") { Movies.deleteKey(title);
+                try { if (title != "") { Movies.deleteKey(title, "Removed");
                         Console.WriteLine("");
                         Console.WriteLine("press 'ENTER' to continue");
                         Console.ReadLine(); 
@@ -295,6 +295,13 @@ namespace CAB301_Assignment
 
                 try { if (value == "") { throw new Exception(); } } catch { Console.WriteLine("ERROR: Please enter valid input"); link = true; }
             }
+            return value;
+        }
+
+        public static string LoopEnterCheck(string message)
+        {
+            Console.Write(message);
+            string value = Console.ReadLine();
             return value;
         }
     }
