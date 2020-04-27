@@ -170,7 +170,7 @@ namespace CAB301_Assignment
                 RemoveCatch = false;
                 Console.Write("Enter Movie Title to remove from Collection or press 'ENTER' to exit: ");
                 string title = Console.ReadLine();
-                try { if (title != "") { Movies.deleteKey(title, "Removed");
+                try { if (title != "") { Movies.deleteKey(title, "Removed"); Movies.Archive.RemoveMovie(title);
                         Console.WriteLine("");
                         Console.WriteLine("press 'ENTER' to continue");
                         Console.ReadLine(); 

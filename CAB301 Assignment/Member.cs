@@ -173,9 +173,7 @@ namespace CAB301_Assignment
                     DisplayMovies(this.Movies);
                     break;
                 case 5:
-                    Console.Clear();
-                    Console.WriteLine("Display top 10 most popular movies");
-                    Console.ReadLine();
+                    DisplayPopularMovies(Movies);
                     break;
                 case 0:
                     return false;
@@ -184,7 +182,14 @@ namespace CAB301_Assignment
             }
             return true;
         }
-
+        private void DisplayPopularMovies(MovieCollection Movies)
+        {
+            Console.Clear();
+            Movies.Archive.Display();
+            Console.WriteLine("");
+            Console.WriteLine("Please press 'Enter' to continue...");
+            Console.ReadLine();
+        }
         private void DisplayMovies(MovieCollection Movies)
         {
             Console.Clear();
@@ -206,6 +211,7 @@ namespace CAB301_Assignment
                 if(MovVal != null)
                 {
                     this.Movies.Insert(MovVal);
+                    Movies.Archive.AddView(value);
                 }
                 
                 Console.WriteLine("");

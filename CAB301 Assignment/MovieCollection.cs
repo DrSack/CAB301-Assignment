@@ -23,9 +23,11 @@ namespace CAB301_Assignment
     {
         private int count = 0;
         private Node _root;
+        public MovieArchive Archive;
         public MovieCollection()
         {
             _root = null;
+            Archive = new MovieArchive();
         }
 
         // This method mainly calls deleteRec()  
@@ -113,6 +115,7 @@ namespace CAB301_Assignment
         public void Insert(Movie data)
         {
             // 1. If the tree is empty, return a new, single node 
+            Archive.AddMovie(data);
             if (_root == null)
             {
                 _root = new Node(data);
