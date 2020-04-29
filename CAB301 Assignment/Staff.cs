@@ -147,9 +147,14 @@ namespace CAB301_Assignment
                             truth = true;
                         else if (value == 1)
                         {
-                            Members.Insert(new Member(GivenName, Surname, ResidentialAddress, PhoneNumber));
-                            Console.WriteLine();
-                            Console.WriteLine(String.Format("Member '{0} {1}' has been added press 'ENTER' to continue", GivenName, Surname));
+                            if (Members.Insert(new Member(GivenName, Surname, ResidentialAddress, PhoneNumber)))
+                            {
+                                Console.WriteLine();
+                                Console.WriteLine(String.Format("Member '{0} {1}' has been added press 'ENTER' to continue", GivenName, Surname));
+                                
+                            }
+                            Console.WriteLine("");
+                            Console.WriteLine("press 'ENTER' to continue");
                             Console.ReadLine();
                             truth = false;
                         }
@@ -170,7 +175,7 @@ namespace CAB301_Assignment
                 RemoveCatch = false;
                 Console.Write("Enter Movie Title to remove from Collection or press 'ENTER' to exit: ");
                 string title = Console.ReadLine();
-                try { if (title != "") { Movies.deleteKey(title, "Removed"); Movies.Archive.RemoveMovie(title);
+                try { if (title != "") { Movies.deleteKey(title, "Removed ");
                         Console.WriteLine("");
                         Console.WriteLine("press 'ENTER' to continue");
                         Console.ReadLine(); 
@@ -270,7 +275,7 @@ namespace CAB301_Assignment
                             truth = true;
                         else if (value == 1)
                         {
-                            Movies.Insert(new Movie(Title, Starring, Director, Duration, Genre, Classification, ReleaseDate));
+                            Movies.Insert(new Movie(Title, Starring, Director, Duration, Genre, Classification, ReleaseDate),false);
                             Console.WriteLine("");
                             Console.WriteLine(String.Format("Movie '{0}' has been Added to collection press 'ENTER' to continue", Title));
                             Console.ReadLine();

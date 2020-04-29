@@ -16,57 +16,73 @@ namespace CAB301_Assignment
         public Node(Movie data)
         {
             this.Data = data;
-
         }
     }
     class MovieCollection
     {
-        private int count = 0;
-        private Node _root;
-        public MovieArchive Archive;
+        public int count = 0;
+        private int track = 0;
+        public Node _root;
+
         public MovieCollection()
         {
             _root = null;
-            Archive = new MovieArchive();
         }
 
         // This method mainly calls deleteRec()  
-        public Movie borrowKey(string key, string mes)
+        public Movie borrowKey(string key, MovieCollection Movies)
         {
-            Node stuffs = new Node(borrowRec(_root, key).Data);
-            Movie Borrowing = new Movie(stuffs.Data.Title, stuffs.Data.Starring, stuffs.Data.Director, stuffs.Data.Duration, stuffs.Data.Genre, stuffs.Data.Classification, stuffs.Data.ReleaseDate);
-            if(Borrowing == null)
+            if(borrowRec(Movies._root, key) == null)
             {
-                return null;
+                if(Movies.count > 9)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("MAXIMUM OF 10 MOVIES ALLOWED");
+                    return null;
+                }
+                else if (borrowRec(_root, key) == null)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("No records found for " + "`" + key + "'");
+                    return null;
+                }
+                else
+                {
+                    borrowRec(_root, key).Data.View++;
+                    Node stuffs = new Node(borrowRec(_root, key).Data);
+                    Movie Borrowing = new Movie(stuffs.Data.Title, stuffs.Data.Starring, stuffs.Data.Director, stuffs.Data.Duration, stuffs.Data.Genre, stuffs.Data.Classification, stuffs.Data.ReleaseDate);
+                    Borrowing.View++;
+                    Console.WriteLine("");
+                    Console.WriteLine("Borrowed '" + Borrowing.Title + "' from library collection");
+                    return Borrowing;
+                }
             }
             else
             {
-                deleteKey(key, mes);
-                return Borrowing;
+                Console.WriteLine("");
+                Console.WriteLine("'"+key + "' already exists in your collection");
+                return null;
             }
-            
         }
 
         /* A recursive function to insert a new key in BST */
-        Node borrowRec(Node root, string Data)
+        public Node borrowRec(Node root, string Data)
         {
-            Node Boi;
-            if (root == null) { Console.WriteLine("No records found for " + "`" + Data + "'"); return null; }
+            Node Boi = null;
+            if (root == null) { return null; }
             if (string.Compare(Data, root.Data.Title) == -1)
             {
                 Boi = borrowRec(root.Left, Data);
-                return Boi;
             }
             else if (string.Compare(Data, root.Data.Title) == 1)
             {
                 Boi = borrowRec(root.Right, Data);
-                return Boi;
             }
             else if (string.Compare(Data, root.Data.Title) == 0)
             {
                 return root;
             }
-            return null;
+            return Boi;
         }
 
         // This method mainly calls deleteRec()  
@@ -90,7 +106,9 @@ namespace CAB301_Assignment
             {
                 if (trust)
                 {
-                    Console.WriteLine(mes+" '"+ root.Data.Title + "' from Movie Collection");
+                    Console.WriteLine("");
+                    Console.WriteLine(mes+"'"+ root.Data.Title + "' from Movie Collection");
+                    count--;
                 }
                 if (root.Left == null)
                     return root.Right;
@@ -112,35 +130,43 @@ namespace CAB301_Assignment
             }
             return minv;
         }
-        public void Insert(Movie data)
+        public void Insert(Movie data, bool truth)
         {
             // 1. If the tree is empty, return a new, single node 
-            Archive.AddMovie(data);
             if (_root == null)
             {
                 _root = new Node(data);
+                count++;
                 return;
             }
-            // 2. Otherwise, recur down the tree 
-            InsertRec(_root, new Node(data));
+            else if (count > 9 && truth)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("MAXIMUM OF 10 MOVIES ALLOWED");
+            }
+            else
+            {
+                // 2. Otherwise, recur down the tree 
+                InsertRec(_root, new Node(data));
+            }
         }
         private void InsertRec(Node root, Node newNode)
         {
-            if (root == null)
-                root = newNode;
+            if (root == null) { count++; root = newNode; }
+                
 
             if (string.Compare(newNode.Data.Title, root.Data.Title) == -1)
             {
-                if (root.Left == null)
-                    root.Left = newNode;
+                if (root.Left == null) { count++; root.Left = newNode; }
+                    
                 else
                     InsertRec(root.Left, newNode);
 
             }
             else
             {
-                if (root.Right == null)
-                    root.Right = newNode;
+                if (root.Right == null) { count++; root.Right = newNode; }
+                    
                 else
                     InsertRec(root.Right, newNode);
             }
@@ -149,9 +175,9 @@ namespace CAB301_Assignment
         {
             if (root == null) { return; };
             DisplayTree(root.Left);
-            count++;
+            track++;
             Console.WriteLine("");
-            Console.WriteLine(count.ToString() + ".");
+            Console.WriteLine(track.ToString() + ".");
             Console.WriteLine("Title: " + root.Data.Title);
             Console.WriteLine("Starring: " + root.Data.Starring);
             Console.WriteLine("Directed by: " + root.Data.Director);
@@ -168,8 +194,51 @@ namespace CAB301_Assignment
             Console.WriteLine("");
             Console.WriteLine("================================");
             Console.WriteLine("");
-            count = 0;
+            track = 0;
         }
 
+        public void DisplayMostPopular()
+        {
+            Movie temp;
+            track = 0;
+            Movie[] Display = new Movie[count];
+            ObtainRecurssive(_root, Display);
+            for(int i = 0; i < Display.Length-1; i++)
+            {
+                for (int j = i + 1; j < Display.Length; j++)// iterate n^2
+                {
+                    if (Display[i].View < Display[j].View)// if the count of views is less then the next elements views
+                    {
+                        temp = Display[i];
+                        Display[i] = Display[j];
+                        Display[j] = temp;
+                    }// Change spots.
+                }
+            }
+            Console.WriteLine("Displays movies with 1 or more views!");
+            Console.WriteLine("");
+            Console.WriteLine("========Top 10 Most Popular Movies========");
+            for (int i = 0; i < 10; i++)
+            {
+                
+                if (Display[i].View > 0)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("Title: " + Display[i].Title + " Views: " + Display[i].View);
+                }
+            }
+            Console.WriteLine("");
+            Console.WriteLine("==========================================");
+            Console.WriteLine("");
+            track = 0;
+        }
+
+        public void ObtainRecurssive(Node root, Movie[] Display)
+        {
+            if (root == null) { return; };
+            ObtainRecurssive(root.Left, Display);
+            Display[track] = root.Data;  track++;
+            ObtainRecurssive(root.Right, Display);
+        }
     }
 }

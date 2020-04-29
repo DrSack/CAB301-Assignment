@@ -9,20 +9,36 @@ namespace CAB301_Assignment
         Member[] collection;
         public MemberCollection()
         {
-            collection = new Member[20];
+            collection = new Member[10];
+            Insert(new Member("A", "A", "A", "123"));
+            Insert(new Member("A", "A", "A", "123"));
+            Insert(new Member("A", "A", "A", "123"));
+            Insert(new Member("A", "A", "A", "123"));
+            Insert(new Member("A", "A", "A", "123"));
+            Insert(new Member("A", "A", "A", "123"));
+            Insert(new Member("A", "A", "A", "123"));
+            Insert(new Member("A", "A", "A", "123"));
+            Insert(new Member("A", "A", "A", "123"));
             Insert(new Member("A", "A", "A", "123"));
         }
 
-        public void Insert(Member member)
+        public bool Insert(Member member)
         {
-            for(int i = 0; i < collection.Length; i++)
+            if (collection[collection.Length - 1] != null)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("ERROR: Maximum of 10 users only");
+                return false;
+            }
+            for (int i = 0; i < collection.Length; i++)
             {
                 if (collection[i] == null)
                 {
                     collection[i] = member;
-                    break;
+                    return true;
                 }
             }
+            return false;
         }
 
         public void DisplayMembers()

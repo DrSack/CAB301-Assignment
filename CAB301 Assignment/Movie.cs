@@ -13,6 +13,8 @@ namespace CAB301_Assignment
         public string Genre { get; set; }
         public string Classification { get; set; }
         public string ReleaseDate { get; set; }
+
+        public int View { get; set; }
         public Movie(string title, string starring, string director, float duration ,string genre, string classification, string releasedate)
         {
             this.Title = title;
@@ -22,6 +24,7 @@ namespace CAB301_Assignment
             this.Genre = genre;
             this.Classification = classification;
             this.ReleaseDate = releasedate;
+            View = 0;
         }
     }
 

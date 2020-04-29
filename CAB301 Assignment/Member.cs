@@ -152,7 +152,7 @@ namespace CAB301_Assignment
                     int result = Convert.ToInt32(value);
                     truth = SWITCHMEMBER(result, Movies, Members);
                 }
-                catch { Console.WriteLine("ERROR: Please try again"); Console.WriteLine("Please press 'Enter' to continue..."); Console.ReadLine(); }
+                catch(Exception es) { Console.WriteLine("ERROR: Please try again " + es.Message); Console.WriteLine("Please press 'Enter' to continue..."); Console.ReadLine(); }
                 Console.Clear();
             }
         }
@@ -167,7 +167,7 @@ namespace CAB301_Assignment
                     BorrowMovies(Movies);
                     break;
                 case 3:
-                    ReturnMovies(Movies);
+                    ReturnMovies();
                     break;
                 case 4:
                     DisplayMovies(this.Movies);
@@ -185,8 +185,7 @@ namespace CAB301_Assignment
         private void DisplayPopularMovies(MovieCollection Movies)
         {
             Console.Clear();
-            Movies.Archive.Display();
-            Console.WriteLine("");
+            Movies.DisplayMostPopular();
             Console.WriteLine("Please press 'Enter' to continue...");
             Console.ReadLine();
         }
@@ -207,12 +206,11 @@ namespace CAB301_Assignment
             string value = Staff.LoopEnterCheck("Enter Movie to Borrow or press 'ENTER' to exit: ");
             if(value != "")
             {
-                Movie MovVal = Movies.borrowKey(value, "Borrowed");
-                if(MovVal != null)
-                {
-                    this.Movies.Insert(MovVal);
-                    Movies.Archive.AddView(value);
-                }
+               Movie MovVal = Movies.borrowKey(value, this.Movies);
+               if (MovVal != null)
+               {
+                    this.Movies.Insert(MovVal, true);
+               }
                 
                 Console.WriteLine("");
                 Console.WriteLine("Please press 'Enter' to continue...");
@@ -220,7 +218,7 @@ namespace CAB301_Assignment
             }
         }
 
-        private void ReturnMovies(MovieCollection Movies)
+        private void ReturnMovies()
         {
             Console.Clear();
             this.Movies.DisplayTree();
@@ -228,11 +226,7 @@ namespace CAB301_Assignment
             string value = Staff.LoopEnterCheck("Enter Movie to Return or press 'ENTER' to exit: ");
             if(value != "")
             {
-                Movie MovVal = this.Movies.borrowKey(value, "Returned");
-                if (MovVal != null)
-                {
-                    Movies.Insert(MovVal);
-                }
+                this.Movies.deleteKey(value, "Returned ");
                 Console.WriteLine("");
                 Console.WriteLine("Please press 'Enter' to continue...");
                 Console.ReadLine();
