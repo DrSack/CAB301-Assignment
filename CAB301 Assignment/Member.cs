@@ -136,6 +136,7 @@ namespace CAB301_Assignment
             bool truth = true;
             while (truth)
             {
+                Console.WriteLine(string.Format("Welcome '{0}'", FullName));
                 Console.WriteLine("============Member Menu===========");
                 Console.WriteLine("1. Display all movies");
                 Console.WriteLine("2. Borrow a movie DVD");

@@ -19,6 +19,7 @@ namespace CAB301_Assignment
             Movies.Insert(new Movie("Opera", "So", "What", 1.5f, "Drama", "G", "13/02/1998"), false);
             Movies.Insert(new Movie("Jungle", "So", "What", 1.5f, "Drama", "G", "13/02/1998"), false);
             Movies.Insert(new Movie("Group", "So", "What", 1.5f, "Drama", "G", "13/02/1998"), false);
+            Console.Clear();
             MemberCollection Members = new MemberCollection();
             MENU(Movies, Members);
         }

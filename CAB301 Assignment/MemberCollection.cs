@@ -10,20 +10,22 @@ namespace CAB301_Assignment
         public MemberCollection()
         {
             collection = new Member[10];
-            Insert(new Member("A", "A", "A", "123"));
-            Insert(new Member("A", "A", "A", "123"));
-            Insert(new Member("A", "A", "A", "123"));
-            Insert(new Member("A", "A", "A", "123"));
-            Insert(new Member("A", "A", "A", "123"));
-            Insert(new Member("A", "A", "A", "123"));
-            Insert(new Member("A", "A", "A", "123"));
-            Insert(new Member("A", "A", "A", "123"));
-            Insert(new Member("A", "A", "A", "123"));
-            Insert(new Member("A", "A", "A", "123"));
         }
 
         public bool Insert(Member member)
         {
+            for(int i = 0; i<collection.Length; i++)
+            {
+                if(collection[i] != null)
+                {
+                    if(collection[i].FullName == member.FullName)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("ERROR: User already exists");
+                        return false;
+                    }
+                }
+            }
             if (collection[collection.Length - 1] != null)
             {
                 Console.WriteLine("");

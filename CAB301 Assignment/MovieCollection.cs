@@ -29,7 +29,10 @@ namespace CAB301_Assignment
             _root = null;
         }
 
-        // This method mainly calls deleteRec()  
+        /*
+         
+             
+        */
         public Movie borrowKey(string key, MovieCollection Movies)
         {
             if(borrowRec(Movies._root, key) == null)
@@ -133,22 +136,33 @@ namespace CAB301_Assignment
         public void Insert(Movie data, bool truth)
         {
             // 1. If the tree is empty, return a new, single node 
-            if (_root == null)
+            if(borrowRec(_root, data.Title) == null)
             {
-                _root = new Node(data);
-                count++;
-                return;
-            }
-            else if (count > 9 && truth)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("MAXIMUM OF 10 MOVIES ALLOWED");
+                if (_root == null)
+                {
+                    _root = new Node(data);
+                    count++;
+                    return;
+                }
+                else if (count > 9 && truth)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("MAXIMUM OF 10 MOVIES ALLOWED");
+                }
+                else
+                {
+                    // 2. Otherwise, recur down the tree 
+                    InsertRec(_root, new Node(data));
+                    Console.WriteLine("");
+                    Console.WriteLine(String.Format("Movie '{0}' has been Added to collection press 'ENTER' to continue", data.Title));
+                }
             }
             else
             {
-                // 2. Otherwise, recur down the tree 
-                InsertRec(_root, new Node(data));
+                Console.WriteLine("");
+                Console.WriteLine("'" + data.Title + "' already exists in the collection");
             }
+            
         }
         private void InsertRec(Node root, Node newNode)
         {
