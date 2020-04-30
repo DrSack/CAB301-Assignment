@@ -1,11 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CAB301_Assignment
 {
+    //This is the Staff class and this is where movies are added or removed, and where staff members can add new members or view contact details.
     class Staff
     {
+        /*
+        paramters: 
+        Movies = This is the movie collection to be passed down and accessed within the Staff class
+        Members = This is to be passed down to be be accessed within the Staff class
+
+        Authentication for logging into the Staff menu.
+
+        returns: nothing
+             
+        */
         public static void LOGIN(MovieCollection Movies, MemberCollection Members)
         {
             Console.WriteLine("Welcome to the Community Library");
@@ -24,6 +33,19 @@ namespace CAB301_Assignment
             Console.Clear();
         }
 
+
+        /*
+        paramters:
+        user = The username field.
+        pass = The password field.
+        Movies = This is the movie collection to be passed down and accessed within the Staff class
+        Members = This is to be passed down to be be accessed within the Staff class
+
+        This is to validate if the provided inputs are correct.     
+            
+        returns: nothing
+        */
+
         public static void LOGINCHECK(string user, string pass, MovieCollection Movies, MemberCollection Members)
         {
             if (user == "staff" && pass == "today123")
@@ -35,6 +57,17 @@ namespace CAB301_Assignment
                 throw new Exception();
             }
         }
+
+        /*
+        parameters:
+        Movies = This is the movie collection to be passed down and accessed within the Staff class
+        Members = This is to be passed down to be be accessed within the Staff class
+
+        This displays the Staff Menu options, and this also reads the input of the staff member.
+
+        returns: nothing
+
+         */
 
         static void STAFF(MovieCollection Movies, MemberCollection Members)
         {
@@ -62,6 +95,17 @@ namespace CAB301_Assignment
             }
         }
 
+        /*
+         parameters: 
+         result = an integer value to determine the switchcase
+         Movies = The Binary Search Tree to be passed down and accessed.
+         Members = The array of members to be passed and accessed.
+             
+         This allows staff to traverse throughout the staff menu, depending on the choosen number value they have inputted.
+
+         returns: int = To determine readline status on the 'MENU' method.
+        */
+
         public static bool SWITCHSTAFF(int result, MovieCollection Movies, MemberCollection Members)
         {
             switch (result)
@@ -85,6 +129,16 @@ namespace CAB301_Assignment
             }
             return true;
         }
+
+        /*
+         parameters: 
+         Members = The array of members to be passed and accessed.
+             
+         This displays the MemberSearch function where it takes an input and searches through the 
+         MemberCollection array for contact details depending on the name given.
+
+         returns: nothing
+        */
 
         public static void MemberSearch(MemberCollection Members)
         {
@@ -111,7 +165,15 @@ namespace CAB301_Assignment
             }
         }
 
-            public static void RegisterMember(MemberCollection Members)
+        /*
+         parameters: 
+         Members = The array of members to be passed and accessed.
+             
+         This displays the RegisterMember function where several inputs are taken to create a new Member
+
+         returns: nothing
+        */
+        public static void RegisterMember(MemberCollection Members)
         {
             bool truth = true;
             while (truth)
@@ -153,8 +215,6 @@ namespace CAB301_Assignment
                                 Console.WriteLine(String.Format("Member '{0} {1}' has been added press 'ENTER' to continue", GivenName, Surname));
                                 
                             }
-                            Console.WriteLine("");
-                            Console.WriteLine("press 'ENTER' to continue");
                             Console.ReadLine();
                             truth = false;
                         }
@@ -164,6 +224,15 @@ namespace CAB301_Assignment
                 }
             }
         }
+
+        /*
+         parameters: 
+         Movies = Contains a binary search tree of Movie objects that are to be passed and accessed.
+             
+         This displays the RemoveMovie function where an input is taken and is searched through the BST of Movies, and promptly deletes that Movie.
+
+         returns: nothing
+        */
 
         public static void RemoveMovie(MovieCollection Movies)
         {
@@ -184,7 +253,15 @@ namespace CAB301_Assignment
             }
         }
 
-            public static void AddMovie(MovieCollection Movies)
+        /*
+         parameters: 
+         Movies = Contains a binary search tree of Movie objects that are to be passed and accessed.
+             
+         This displays the AddMovie function where several inputs are taken and a new Movie Object is added into the BST.
+
+         returns: nothing
+        */
+        public static void AddMovie(MovieCollection Movies)
         {
             bool truth = true;
             while (truth)
@@ -194,10 +271,11 @@ namespace CAB301_Assignment
                 string Title;
                 string Starring;
                 string Director;
-                string ReleaseDate;
+                string ReleaseDate = "";
                 string Genre = "";
                 string Classification = "";
                 float Duration = 0;
+                int Copies = 0;
 
                 Console.WriteLine("============Add Movie===========");
                 Title = LoopCheck("Enter Title: ");
@@ -249,8 +327,25 @@ namespace CAB301_Assignment
 
                 }
 
-                Console.Write("Enter Release Date DD/MM/YYYY: ");
-                ReleaseDate = Console.ReadLine();
+                bool ReleaseCatch = true;
+                while (ReleaseCatch)
+                {
+                    ReleaseCatch = false;
+                    Console.Write("Enter Release Year: ");
+                    string year = Console.ReadLine();
+
+                    try { Int32.Parse(year); ReleaseDate = year; } catch { Console.WriteLine("ERROR: Please enter valid input"); ReleaseCatch = true; }
+                }
+
+                bool CopiesCatch = true;
+                while (CopiesCatch)
+                {
+                    CopiesCatch = false;
+                    Console.Write("Enter number of copies: ");
+                    string copies = Console.ReadLine();
+
+                    try { Copies = Int32.Parse(copies); if (Copies <= 0) { throw new Exception(); } } catch { Console.WriteLine("ERROR: Please enter valid input"); CopiesCatch = true; }
+                }
 
                 Console.WriteLine("");
                 Console.WriteLine("Title: " + Title);
@@ -260,6 +355,7 @@ namespace CAB301_Assignment
                 Console.WriteLine("Genre: " + Genre);
                 Console.WriteLine("Classification: " + Classification);
                 Console.WriteLine("Release Date: " + ReleaseDate);
+                Console.WriteLine("Copies: " + Copies);
                 Console.WriteLine("");
 
                 bool RestartCatch = true;
@@ -275,7 +371,9 @@ namespace CAB301_Assignment
                             truth = true;
                         else if (value == 1)
                         {
-                            Movies.Insert(new Movie(Title, Starring, Director, Duration, Genre, Classification, ReleaseDate),false);
+                            Movies.Insert(new Movie(Title, Starring, Director, Duration, Genre, Classification, ReleaseDate),false,Copies);
+                            Console.WriteLine("");
+                            Console.WriteLine(String.Format("Movie '{0}' has been Added to collection press 'ENTER' to continue", Title));
                             Console.ReadLine();
                             truth = false;
                         }
@@ -286,6 +384,14 @@ namespace CAB301_Assignment
             }
             
         }
+        /*
+        parameters: 
+        message = The string message to be displyed on screen
+
+        A reusabe function to essentially throw an exeception whenever nothing is inputted for a readline. 
+
+        returns: string = the Readline() value
+       */
         public static string LoopCheck(string message)
         {
             string value = "";
@@ -301,6 +407,14 @@ namespace CAB301_Assignment
             return value;
         }
 
+        /*
+        parameters: 
+        message = The string message to be displyed on screen
+
+        A reusabe function to progress through the function normally without handling any errors. 
+
+        returns: string = the Readline() value
+       */
         public static string LoopEnterCheck(string message)
         {
             Console.Write(message);

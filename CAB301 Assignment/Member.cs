@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CAB301_Assignment
 {
+    //This is the Member object class which borrows and returns movies, and is able to access the member menu.
     class Member
     {
+        //Declare all variables
         public string FullName { get; set; }
         public string GivenName { get; set; }
         public string Surname { get; set; }
@@ -16,6 +16,8 @@ namespace CAB301_Assignment
         public bool PasswordSet { get; set; }
 
         private MovieCollection Movies;
+
+        //Decalre constructor and set all arguments to the object variables.
         public Member(string givenname, string surname, string residentialaddress, string phonenumber)
         {
             this.GivenName = givenname;
@@ -23,10 +25,19 @@ namespace CAB301_Assignment
             this.ResidentialAddress = residentialaddress;
             this.PhoneNumber = phonenumber;
             this.PasswordSet = false;
-            Username = givenname + surname;
+            Username = surname + givenname;
             FullName = givenname +" "+ surname;
             Movies = new MovieCollection();
         }
+
+        /*
+         paramater: pass = the password that was given from the user input.
+
+         Check whenever the password is the equivalent to what the Member has set the password as.
+         OR if there no password set, then set new password as the user input.
+             
+         return: bool = true or false to determine if the password check has failed or not.
+         */
 
         public bool PasswordCheck(string pass)
         {
@@ -51,7 +62,14 @@ namespace CAB301_Assignment
             }
             return false;
         }
-        
+
+        /*
+         paramater: nothing
+
+         Checks if the member already has a password.
+             
+         return: bool = true or false to determine if the password has already been set.
+         */
         public bool PassRego()
         {
             if (!PasswordSet)
@@ -60,6 +78,16 @@ namespace CAB301_Assignment
             }
             return false;
         }
+
+        /*
+         paramater:
+         Movies = This is the movie collection to be passed down and accessed for the particular member
+         Members = This is to be passed down to be be accessed for a particular member
+
+         Checks if the member already has a password.
+             
+         return: bool = true or false to determine if the password has already been set.
+         */
 
         public static void Login(MemberCollection Members, MovieCollection Movies)
         {
@@ -70,7 +98,7 @@ namespace CAB301_Assignment
             Console.WriteLine("");
             Member logged;
 
-            string user = Staff.LoopCheck("Username: ");
+            string user = Staff.LoopCheck("Username (LastnameFirstname): ");
             string pass = "";
             logged = Members.UserSearch(user);
 
@@ -115,7 +143,7 @@ namespace CAB301_Assignment
                 {
                     Console.WriteLine(String.Format("Succesfully Logged in, Welcome {0}, press 'ENTER' to continue", logged.FullName));
                     Console.ReadLine();
-                    logged.MEMBER(Members, Movies);
+                    logged.MEMBER(Movies);
                 }
                 else
                 {
@@ -130,7 +158,15 @@ namespace CAB301_Assignment
             Console.Clear();
         }
 
-        private void MEMBER(MemberCollection Members, MovieCollection Movies)
+        /*
+        parameters:
+        Movies = This is the movie collection to be passed down and accessed within the Member object.
+
+        This displays the Member Menu options, and this also reads the input of the logged member.
+
+        returns: nothing
+         */
+        private void MEMBER(MovieCollection Movies)
         {
             Console.Clear();
             bool truth = true;
@@ -147,17 +183,27 @@ namespace CAB301_Assignment
                 Console.WriteLine("================================");
                 Console.Write("Please make a selection (1-5, 0 to exit): ");
                 string value = Console.ReadLine();
-
                 try
                 {
                     int result = Convert.ToInt32(value);
-                    truth = SWITCHMEMBER(result, Movies, Members);
+                    truth = SWITCHMEMBER(result, Movies);
                 }
-                catch(Exception es) { Console.WriteLine("ERROR: Please try again " + es.Message); Console.WriteLine("Please press 'Enter' to continue..."); Console.ReadLine(); }
+                catch{ Console.WriteLine("ERROR: Please try again "); Console.WriteLine("Please press 'Enter' to continue..."); Console.ReadLine(); }
                 Console.Clear();
             }
         }
-        private bool SWITCHMEMBER(int result, MovieCollection Movies, MemberCollection Members)
+
+        /*
+         parameters: 
+         result = an integer value to determine the switchcase
+         Movies = This is the movie collection to be passed down and accessed within the Member object.
+             
+         This allows staff to traverse throughout the member menu, depending on the choosen number value they have inputted.
+
+         returns: bool = To determine whenever to break out of the MEMBER menu.
+        */
+
+        private bool SWITCHMEMBER(int result, MovieCollection Movies)
         {
             switch (result)
             {
@@ -168,7 +214,7 @@ namespace CAB301_Assignment
                     BorrowMovies(Movies);
                     break;
                 case 3:
-                    ReturnMovies();
+                    ReturnMovies(Movies);
                     break;
                 case 4:
                     DisplayMovies(this.Movies);
@@ -183,6 +229,14 @@ namespace CAB301_Assignment
             }
             return true;
         }
+        /*
+         parameters: 
+         Movies = This is the movie collection to be passed down and accessed within the Member object.
+             
+         This displays the most Popular Movies withint the community library depending on view count.
+
+         returns: nothing.
+        */
         private void DisplayPopularMovies(MovieCollection Movies)
         {
             Console.Clear();
@@ -190,6 +244,15 @@ namespace CAB301_Assignment
             Console.WriteLine("Please press 'Enter' to continue...");
             Console.ReadLine();
         }
+
+        /*
+         parameters: 
+         Movies = This is the movie collection to be passed down and accessed within the Member object.
+             
+         This displays all of the Movies within the community library.
+
+         returns: nothing.
+        */
         private void DisplayMovies(MovieCollection Movies)
         {
             Console.Clear();
@@ -199,10 +262,19 @@ namespace CAB301_Assignment
             Console.ReadLine();
         }
 
+        /*
+         parameters: 
+         Movies = This is the movie collection to be passed down and accessed within the Member object.
+             
+         This displays the Borrow Movie screen, and this takes in an input and searches for that movie within the community library, and if found 
+         the movie within the community libraries collection, it will add that movie.
+
+         returns: nothing.
+        */
+
         private void BorrowMovies(MovieCollection Movies)
         {
             Console.Clear();
-            Movies.DisplayTree();
             Console.WriteLine("");
             string value = Staff.LoopEnterCheck("Enter Movie to Borrow or press 'ENTER' to exit: ");
             if(value != "")
@@ -210,7 +282,7 @@ namespace CAB301_Assignment
                Movie MovVal = Movies.borrowKey(value, this.Movies);
                if (MovVal != null)
                {
-                    this.Movies.Insert(MovVal, true);
+                    this.Movies.Insert(MovVal, true,1);
                }
                 
                 Console.WriteLine("");
@@ -218,16 +290,24 @@ namespace CAB301_Assignment
                 Console.ReadLine();
             }
         }
+        /*
+         parameters: 
+         Movies = This is the movie collection to be passed down and accessed within the Member object.
+             
+         This displays the Return Movie screen, and this takes in an input and searches for that movie within this member objects collection, and if found 
+         the movie within the members collection will delete that movie found.
 
-        private void ReturnMovies()
+         returns: nothing.
+        */
+        private void ReturnMovies(MovieCollection Movies)
         {
             Console.Clear();
-            this.Movies.DisplayTree();
             Console.WriteLine("");
             string value = Staff.LoopEnterCheck("Enter Movie to Return or press 'ENTER' to exit: ");
             if(value != "")
             {
                 this.Movies.deleteKey(value, "Returned ");
+                try { Movies.borrowRec(Movies._root, value).copies++; } catch { }// try parse and catch, as Movie might of been deleted from staff;
                 Console.WriteLine("");
                 Console.WriteLine("Please press 'Enter' to continue...");
                 Console.ReadLine();

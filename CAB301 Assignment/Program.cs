@@ -2,27 +2,37 @@
 
 namespace CAB301_Assignment
 {
+    //This is the main program class, this is where the entire program is executed.
     class Program
     {
-        
-        static void Main(string[] args)
+        /*
+        paramters: None
+             
+        Runs main and executes the program.
+
+        returns: Nothing
+        */
+        static void Main()
         {
             MovieCollection Movies = new MovieCollection();
-            Movies.Insert(new Movie("Cool", "So", "What", 1.5f, "Drama", "G", "13/02/1998"), false);
-            Movies.Insert(new Movie("Ank", "So", "What", 1.5f, "Drama", "G", "13/02/1998"), false);
-            Movies.Insert(new Movie("Stern", "So", "What", 1.5f, "Drama", "G", "13/02/1998"), false);
-            Movies.Insert(new Movie("Ok", "So", "What", 1.5f, "Drama", "G", "13/02/1998"), false);
-            Movies.Insert(new Movie("Sure", "So", "What", 1.5f, "Drama", "G", "13/02/1998"), false);
-            Movies.Insert(new Movie("Pop", "So", "What", 1.5f, "Drama", "G", "13/02/1998"), false);
-            Movies.Insert(new Movie("Koala", "So", "What", 1.5f, "Drama", "G", "13/02/1998"), false);
-            Movies.Insert(new Movie("Donkey", "So", "What", 1.5f, "Drama", "G", "13/02/1998"), false);
-            Movies.Insert(new Movie("Opera", "So", "What", 1.5f, "Drama", "G", "13/02/1998"), false);
-            Movies.Insert(new Movie("Jungle", "So", "What", 1.5f, "Drama", "G", "13/02/1998"), false);
-            Movies.Insert(new Movie("Group", "So", "What", 1.5f, "Drama", "G", "13/02/1998"), false);
+            Movies.Insert(new Movie("B", "0", "0", 1.5f, "Drama", "G", "1998"), false, 2);
+            Movies.Insert(new Movie("F", "1", "1", 1.5f, "Drama", "G", "1998"), false,2);
+            Movies.Insert(new Movie("C", "2", "2", 1.5f, "Drama", "G", "1999"), false,1);
+            Movies.Insert(new Movie("G", "2", "2", 1.5f, "Drama", "G", "1999"), false, 1);
             Console.Clear();
             MemberCollection Members = new MemberCollection();
             MENU(Movies, Members);
         }
+
+        /*
+        paramters: 
+        Movies = This is the movie collection to be passed down and accessed throughout the program
+        Members = This is to be passed down to be be accessed throughout the program
+             
+        displays the Main Menu and allows staff or members to traverse through the system.
+
+        returns: Nothing
+        */
 
         static void MENU(MovieCollection Movies, MemberCollection Members)
         {
@@ -55,10 +65,20 @@ namespace CAB301_Assignment
             }
         }
 
-        //ROUTE TO OTHER MENUS
+        /*
+         parameters: 
+         result = an integer value to determine the switchcase
+         Movies = The Binary Search Tree to be passed down and accessed.
+         Members = The array of members to be passed and accessed.
+             
+         This allows staff and members to traverse throughout the program, depending on the choosen number value they have inputted.
+
+         returns: int = To determine readline status on the 'MENU' method.
+             
+        */
         public static int SWITCHMENU(int result, MovieCollection Movies, MemberCollection Members)
         {
-            int release = 1;
+            int release;
             switch (result)
             {
                 case 1:
