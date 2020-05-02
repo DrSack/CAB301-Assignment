@@ -11,6 +11,7 @@ namespace CAB301_Assignment
         public MemberCollection()
         {
             collection = new Member[10];
+            Insert(new Member("A", "A", "a", "123"));
         }
 
         /*

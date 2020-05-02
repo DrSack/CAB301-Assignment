@@ -188,7 +188,7 @@ namespace CAB301_Assignment
                     int result = Convert.ToInt32(value);
                     truth = SWITCHMEMBER(result, Movies);
                 }
-                catch{ Console.WriteLine("ERROR: Please try again "); Console.WriteLine("Please press 'Enter' to continue..."); Console.ReadLine(); }
+                catch(Exception es){ Console.WriteLine("ERROR: Please try again: "+es.Message); Console.WriteLine("Please press 'Enter' to continue..."); Console.ReadLine(); }
                 Console.Clear();
             }
         }

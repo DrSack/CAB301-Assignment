@@ -372,8 +372,6 @@ namespace CAB301_Assignment
                         else if (value == 1)
                         {
                             Movies.Insert(new Movie(Title, Starring, Director, Duration, Genre, Classification, ReleaseDate),false,Copies);
-                            Console.WriteLine("");
-                            Console.WriteLine(String.Format("Movie '{0}' has been Added to collection press 'ENTER' to continue", Title));
                             Console.ReadLine();
                             truth = false;
                         }

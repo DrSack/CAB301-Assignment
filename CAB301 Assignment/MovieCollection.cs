@@ -137,7 +137,7 @@ namespace CAB301_Assignment
 
         Node deleteRec(Node root, string Data, bool trust, string mes)
         {
-            if (root == null) { Console.WriteLine("No records found for " + "`" + Data + "'"); return root; }
+            if (root == null) { Console.WriteLine("");  Console.WriteLine("No records found for " + "`" + Data + "'"); return root; }
             if (string.Compare(Data, root.Data.Title) == -1)// go down left
             {
                 root.Left = deleteRec(root.Left, Data, trust, mes);
@@ -196,6 +196,11 @@ namespace CAB301_Assignment
                 {
                     _root = new Node(data, copies);
                     count++;
+                    if (!truth)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine(String.Format("Movie '{0}' has been Added to collection press 'ENTER' to continue", data.Title));
+                    }
                     return;
                 }
                 else if (count > 9 && truth)// If over maximum amount of movies
@@ -206,7 +211,7 @@ namespace CAB301_Assignment
                 else
                 {
                     //Otherwise use the reccursive method down the tree 
-                    InsertRec(_root, new Node(data,copies));
+                    InsertRec(_root, new Node(data,copies), truth);
                 }
             }
             else
@@ -224,22 +229,38 @@ namespace CAB301_Assignment
 
          returns: Nothing.
          */
-        private void InsertRec(Node root, Node newNode)
+        private void InsertRec(Node root, Node newNode, bool truth)
         {
             if (root == null) { count++; root = newNode; }
             if (string.Compare(newNode.Data.Title, root.Data.Title) == -1)
             {
-                if (root.Left == null) { count++; root.Left = newNode; }
+                if (root.Left == null) 
+                { 
+                    count++; root.Left = newNode;
+                    if (!truth)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine(String.Format("Movie '{0}' has been Added to collection press 'ENTER' to continue", newNode.Data.Title));
+                    }
+                }
                     
                 else
-                    InsertRec(root.Left, newNode);
+                    InsertRec(root.Left, newNode, truth);
             }
             else
             {
-                if (root.Right == null) { count++; root.Right = newNode; }
+                if (root.Right == null) 
+                { 
+                    count++; root.Right = newNode;
+                    if (!truth)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine(String.Format("Movie '{0}' has been Added to collection press 'ENTER' to continue", newNode.Data.Title));
+                    }
+                }
                     
                 else
-                    InsertRec(root.Right, newNode);
+                    InsertRec(root.Right, newNode, truth);
             }
         }
 
@@ -294,41 +315,96 @@ namespace CAB301_Assignment
 
          returns: Nothing.
          */
+
         public void DisplayMostPopular()
         {
-            Movie temp;// temporariliy create movie object without anything
-            track = 0;// set track to 0
-            Movie[] Display = new Movie[count];
-            ObtainRecurssive(_root, Display);// Recur down tree and fill array.
-            for(int i = 0; i < Display.Length-1; i++)// Bubble Sort array from highest to lowest amount of views
-            {
-                for (int j = i + 1; j < Display.Length; j++)// iterate n^2
-                {
-                    if (Display[i].View < Display[j].View)// if the count of views is less then the next elements views
-                    {
-                        temp = Display[i];
-                        Display[i] = Display[j];
-                        Display[j] = temp;
-                    }// Change spots.
-                }
-            }
             Console.WriteLine("displays movies with 1 or more views!");// Display information
             Console.WriteLine("");
             Console.WriteLine("========Top 10 Most Popular Movies========");
+            CreateTopTen();
+            Console.WriteLine("");
+            Console.WriteLine("==========================================");
+            Console.WriteLine("");
+            
+        }
+
+        /*
+         parameters: nothing
+
+         This method creates an array from a recursive function within the BST. which will then be sorted with MergeSort, then displayed with a forloop.
+
+         returns: Nothing.
+         */
+
+        private void CreateTopTen()
+        {
+            track = 0;// set track to 0
+            Movie[] Display = new Movie[count];
             int aLength;
-            if(count > 9) { aLength = 10;  } else { aLength = count;  }// set the iteration length to the count of the current collection of total movie titles, or to 10 if it exceeds the maximum.
+            ObtainRecurssive(_root, Display);// Recur down tree and fill array.
+            MergeSort(Display, 0, Display.Length - 1);
+            if (count > 9) { aLength = 10; } else { aLength = count; }// set the iteration length to the count of the current collection of total movie titles, or to 10 if it exceeds the maximum.
             for (int i = 0; i < aLength; i++)
             {
-                if (Display[i].View > 0)// If the Movie has more than 0 views, then display the information
+                if (Display[i].View > 0)
                 {
                     Console.WriteLine("");
                     Console.WriteLine("Title: " + Display[i].Title + " Views: " + Display[i].View);
                 }
             }
-            Console.WriteLine("");
-            Console.WriteLine("==========================================");
-            Console.WriteLine("");
             track = 0;
+        }
+
+        /*
+         paramter: input = the Movie array to be merge sorted, left = index value for left, middle = index value for the middle, right = index value for the right side
+             
+         Create sub arrays then sort them, then eventually merge to sort the entire array. 
+
+         returns: nothing
+         */
+        private void Merge(Movie[] input, int left, int mid, int right)
+        {
+            //this algorithm will take theta(n) time
+            Movie[] temp = new Movie[input.Length];
+            int i, leftE, length, tmpPos;
+            leftE = mid - 1;
+            tmpPos = left;
+            length = right - left + 1;
+
+            //Take the biggest element from the input and put this within the temporary array.
+            while ((left <= leftE) && (mid <= right))
+            {
+                if (input[left].View >= input[mid].View)
+                {
+                    temp[tmpPos++] = input[left++];
+                }
+                else
+                {
+                    temp[tmpPos++] = input[mid++];
+                }
+            }
+            while (left <= leftE){temp[tmpPos++] = input[left++]; }//placing remaining element in temp from left sorted array
+            while (mid <= right){temp[tmpPos++] = input[mid++]; }//placing remaining element in temp from right sorted array
+            for (i = 0; i < length; i++){ input[right] = temp[right];right--; }//put the temporary created array into the input.
+        }
+
+        /*
+         paramter: input = the Movie array to be merge sorted, left = index value for left, right = index value for the right side
+             
+         Merge sorting algorithm from Descending order of movies.
+
+         returns: nothing
+         */
+
+        private void MergeSort(Movie[] input, int left, int right)
+        {
+            if (left < right)
+            {//if the left is smaller commence operation.
+                int middle = (left + right) / 2;
+                MergeSort(input, left, middle);
+                MergeSort(input, middle + 1, right);
+                Merge(input, left, middle+1, right);
+            }
         }
 
         /*

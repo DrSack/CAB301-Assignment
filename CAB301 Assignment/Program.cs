@@ -15,10 +15,18 @@ namespace CAB301_Assignment
         static void Main()
         {
             MovieCollection Movies = new MovieCollection();
-            Movies.Insert(new Movie("B", "0", "0", 1.5f, "Drama", "G", "1998"), false, 2);
-            Movies.Insert(new Movie("F", "1", "1", 1.5f, "Drama", "G", "1998"), false,2);
+            Movies.Insert(new Movie("A", "0", "0", 1.5f, "Drama", "G", "1998"), false, 2);
+            Movies.Insert(new Movie("B", "1", "1", 1.5f, "Drama", "G", "1998"), false,2);
             Movies.Insert(new Movie("C", "2", "2", 1.5f, "Drama", "G", "1999"), false,1);
+            Movies.Insert(new Movie("D", "2", "2", 1.5f, "Drama", "G", "1999"), false, 1);
+            Movies.Insert(new Movie("E", "0", "0", 1.5f, "Drama", "G", "1998"), false, 2);
+            Movies.Insert(new Movie("F", "1", "1", 1.5f, "Drama", "G", "1998"), false, 2);
             Movies.Insert(new Movie("G", "2", "2", 1.5f, "Drama", "G", "1999"), false, 1);
+            Movies.Insert(new Movie("H", "2", "2", 1.5f, "Drama", "G", "1999"), false, 1);
+            Movies.Insert(new Movie("I", "0", "0", 1.5f, "Drama", "G", "1998"), false, 2);
+            Movies.Insert(new Movie("J", "1", "1", 1.5f, "Drama", "G", "1998"), false, 2);
+            Movies.Insert(new Movie("K", "2", "2", 1.5f, "Drama", "G", "1999"), false, 1);
+            Movies.Insert(new Movie("L", "2", "2", 1.5f, "Drama", "G", "1999"), false, 1);
             Console.Clear();
             MemberCollection Members = new MemberCollection();
             MENU(Movies, Members);
