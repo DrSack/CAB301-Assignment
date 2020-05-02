@@ -318,7 +318,7 @@ namespace CAB301_Assignment
 
         public void DisplayMostPopular()
         {
-            Console.WriteLine("displays movies with 1 or more views!");// Display information
+            Console.WriteLine("Displays movies with 1 or more views!");// Display information
             Console.WriteLine("");
             Console.WriteLine("========Top 10 Most Popular Movies========");
             CreateTopTen();
@@ -340,7 +340,7 @@ namespace CAB301_Assignment
         {
             track = 0;// set track to 0
             Movie[] Display = new Movie[count];
-            int aLength;
+            int aLength = 0;
             ObtainRecurssive(_root, Display);// Recur down tree and fill array.
             MergeSort(Display, 0, Display.Length - 1);
             if (count > 9) { aLength = 10; } else { aLength = count; }// set the iteration length to the count of the current collection of total movie titles, or to 10 if it exceeds the maximum.
@@ -362,10 +362,10 @@ namespace CAB301_Assignment
 
          returns: nothing
          */
-        private void Merge(Movie[] input, int left, int mid, int right)
+        private void Merge(Movie[] Display, int left, int mid, int right)
         {
             //this algorithm will take theta(n) time
-            Movie[] temp = new Movie[input.Length];
+            Movie[] temp = new Movie[Display.Length];
             int i, leftE, length, tmpPos;
             leftE = mid - 1;
             tmpPos = left;
@@ -374,18 +374,18 @@ namespace CAB301_Assignment
             //Take the biggest element from the input and put this within the temporary array.
             while ((left <= leftE) && (mid <= right))
             {
-                if (input[left].View >= input[mid].View)
+                if (Display[left].View >= Display[mid].View)
                 {
-                    temp[tmpPos++] = input[left++];
+                    temp[tmpPos++] = Display[left++];
                 }
                 else
                 {
-                    temp[tmpPos++] = input[mid++];
+                    temp[tmpPos++] = Display[mid++];
                 }
             }
-            while (left <= leftE){temp[tmpPos++] = input[left++]; }//placing remaining element in temp from left sorted array
-            while (mid <= right){temp[tmpPos++] = input[mid++]; }//placing remaining element in temp from right sorted array
-            for (i = 0; i < length; i++){ input[right] = temp[right];right--; }//put the temporary created array into the input.
+            while (left <= leftE){temp[tmpPos++] = Display[left++]; }//placing remaining element in temp from left sorted array
+            while (mid <= right){temp[tmpPos++] = Display[mid++]; }//placing remaining element in temp from right sorted array
+            for (i = 0; i < length; i++){ Display[right] = temp[right];right--; }//put the temporary created array into the input.
         }
 
         /*
@@ -396,14 +396,14 @@ namespace CAB301_Assignment
          returns: nothing
          */
 
-        private void MergeSort(Movie[] input, int left, int right)
+        private void MergeSort(Movie[] Display, int left, int right)
         {
             if (left < right)
             {//if the left is smaller commence operation.
                 int middle = (left + right) / 2;
-                MergeSort(input, left, middle);
-                MergeSort(input, middle + 1, right);
-                Merge(input, left, middle+1, right);
+                MergeSort(Display, left, middle);
+                MergeSort(Display, middle + 1, right);
+                Merge(Display, left, middle+1, right);
             }
         }
 
