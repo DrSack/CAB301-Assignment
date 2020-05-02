@@ -20,7 +20,7 @@ namespace CAB301_Assignment
             Console.WriteLine("Welcome to the Community Library");
             Console.WriteLine("============Staff Login===========");
             Console.WriteLine("Please Enter Credentials");
-
+            Console.WriteLine("");
             Console.Write("Username: ");
             string user = Console.ReadLine();
             Console.Write("Password: ");
@@ -179,7 +179,6 @@ namespace CAB301_Assignment
             while (truth)
             {
                 Console.Clear();
-                Console.WriteLine("");
                 Console.WriteLine("============Add Member==========");
                 string GivenName = LoopCheck("Enter Given Name: ");
                 string Surname = LoopCheck("Enter Surname: ");
